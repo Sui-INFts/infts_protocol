@@ -55,6 +55,48 @@ INFT introduces **AI-powered, evolving NFTs** that grow in intelligence and valu
 - Highlights an NFT’s **Interaction Score, evolution history, and unique attributes**.
 - Integrated with **Sui blockchain** for seamless transactions.
 
+## Diagram
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant SmartContract
+  participant Walrus
+  participant SealSDK
+  participant SealBackend
+
+  %% Minting
+  User->>Frontend: Sign NFT minting transaction
+  Frontend->>SmartContract: Call mintINFT(metadata)
+  SmartContract->>Walrus: Store encrypted metadata
+  SmartContract->>SealBackend: Attach access policies via Seal
+  SealBackend-->>SmartContract: Policy confirmation
+
+  %% Viewing / Interaction
+  User->>Frontend: View NFT
+  Frontend->>SealSDK: Request decryption key
+  SealSDK->>SealBackend: Verify identity & policy
+  SealBackend-->>SealSDK: Return key if conditions met
+  SealSDK-->>Frontend: Decryption key
+  Frontend->>User: Show decrypted data
+
+  %% Evolution
+  User->>Frontend: Perform interaction (e.g., train NFT)
+  Frontend->>SealSDK: Encrypt updated data
+  Frontend->>Walrus: Upload new encrypted state
+  Frontend->>SmartContract: Update interaction count / evolution state
+
+  %% Gated Access / Unlock
+  Creator->>SealBackend: Define access policy (e.g. time-lock)
+  User->>Frontend: Request gated content
+  Frontend->>SealSDK: Request access via Seal
+  SealSDK->>SealBackend: Check policy + identity
+  SealBackend-->>SealSDK: Grant access if valid
+  SealSDK-->>Frontend: Return decryption key
+  Frontend->>User: Display gated content
+```
+
 ## **Business Model**
 
 ### **Revenue Streams**
