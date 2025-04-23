@@ -112,29 +112,22 @@ sequenceDiagram
 
 ## **Roadmap**
 
-### **Phase 1: Development & Proof of Concept**
+### **Phase 1: Development & Proof of Concept (Apr 4 - May 6, 2025)**
+- Week 1: Research, architecture design, develop INFT smart contracts and AI logic on Sui
+- Week 2: Develop frontend UI for minting/training INFTs and integrate Sui Wallet
+- Week 3: Finalize MVP, perform testing, deploy to testnet/mainnet
+- Week 4: Debugging, documentation, and Sui Hackathon submission
 
-- Research and feasibility study.
-- Build core AI models for NFT evolution.
-- Develop INFT smart contracts on **Sui blockchain**.
-- Initial integration with **Walrus storage**.
+### **Phase 2: AI Expansion & Industry Applications**
+- Expand NFT evolution features (e.g., AI-generated art, learning capabilities)
+- Introduce more advanced tokenomics & Interaction Token utilities
+- Integrate cross-chain support and partner with gaming, metaverse, and entertainment platforms
 
-### **Phase 2: Marketplace Launch & AI Integration**
-
-- Launch beta version of the INFT Marketplace.
-- Implement AI-driven interactions for NFT evolution.
-- Enable decentralized storage with Walrus.
-- Onboard initial creators and early adopters.
-
-### **Phase 3: Expansion & Utility Enhancement**
-
-- Expand NFT evolution features (e.g., AI-generated art, learning capabilities).
-- Introduce **more advanced tokenomics & Interaction Token utilities**.
-- Integrate cross-chain support.
-- Partner with gaming, metaverse, and entertainment platforms.
+### **Phase 3: Marketplace Launch**
+- Launch full-featured INFT marketplace with advanced filtering, evolution tracking, and user profile integration
+- Introduce view-only and owner-only content rendering with Seal-based access controls
 
 ### **Phase 4: Token Economy & INFT Token Development**
-
 - Launch the **INFT native token** for governance, staking, and incentives.
 - Expand marketplace capabilities with staking and liquidity pools.
 - Develop decentralized AI-driven applications using INFT technology.
@@ -148,22 +141,16 @@ sequenceDiagram
 - **Gaming & Metaverse Projects**: Integration of AI-driven NFTs into gaming and virtual worlds.
 - **Artists & Content Creators**: Incentivizing adoption among musicians, writers, and visual artists.
 
-## **Token Economy**
-
-**INFT Token Utility:**
-
-- Used for **purchasing Interaction Tokens, staking, and governance**.
-- Supports **NFT evolution, ecosystem rewards, and user engagement incentives**.
-- Dynamic pricing model to **balance accessibility and sustainability**.
-
 ## **Use Cases**
 
-1. **Dynamic Digital Art** – Artists create NFTs that evolve over time.
-2. **AI-Powered Collectibles** – Gamers own NFTs that change based on achievements.
-3. **Fan Engagement & Creator Royalties** – Musicians reward fans with evolving content.
-4. **Education & Certification** – NFTs update with skills and achievements.
-5. **Membership & Access Passes** – NFTs grant access based on user contribution.
-6. **Storage-Backed NFTs** – Owners purchase storage to enhance NFT value.
+1. **Dynamic Digital Art** – Artists create NFTs that evolve over time
+2. **AI-Powered Collectibles** – Gamers own NFTs that change based on achievements
+3. **Fan Engagement & Creator Royalties** – Musicians reward fans with evolving content
+4. **Education & Certification** – NFTs update with skills and achievements
+5. **Membership & Access Passes** – NFTs grant access based on user contribution
+6. **Storage-Backed NFTs** – Owners purchase storage to enhance NFT value
+7. **Encrypted AI NFTs with Chat** – Users interact with INFTs using AI chat models like LLaMA
+8. **Secure Data Sharing** – Private NFT content managed by Seal access policies and decrypted on demand
 
 ## **Conclusion**
 
