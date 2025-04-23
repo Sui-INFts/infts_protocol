@@ -1,14 +1,21 @@
-# **INFT: AI-driven, interactive NFTs with decentralized storage**.
+<h1>
+    <img src=https://github.com/user-attachments/assets/09cc62dc-6f06-49d2-9e26-26485d91a9f9 align=center width="100" height="100"> INFT: Intelligent NFT
+</h1>
 
-## **Overview**
+#### [Live Demo]() | [Pitchdeck]() | [Demo Video]()
+
+## Core Features
+#### [Sui Network]() | [Walrus]() | [Atoma]()
+
+## Overview
 
 INFT (Intelligent NFT) is an innovative AI-driven NFT framework that enhances traditional NFTs by integrating **evolving intelligence, user interaction, and decentralized storage**. Unlike static NFTs that offer limited engagement beyond ownership and trading, INFTs adapt and grow based on user interactions, increasing their long-term value and utility.
 
 By leveraging **Walrus** for cost-effective and decentralized storage on the **Sui blockchain**, INFTs provide a scalable and resilient infrastructure for digital assets that evolve dynamically over time. This project aims to create an **AI-powered NFT marketplace** where creators, collectors, and businesses can interact with intelligent NFTs, unlocking new opportunities for engagement, monetization, and utility.
 
-## **Problem Statement**
+## Problem Statement
 
-### **Challenges with Traditional NFTs**
+### Challenges with Traditional NFTs
 
 1. **Static Nature:** NFTs remain unchanged after minting, offering no dynamic utility.
 2. **Limited Engagement:** Users have no incentive to interact beyond buying and selling.
@@ -16,7 +23,7 @@ By leveraging **Walrus** for cost-effective and decentralized storage on the **S
 4. **Lack of Scalability:** Many NFTs rely on costly, inefficient storage solutions.
 5. **Underutilized AI Potential:** No direct AI-driven mechanisms exist to enhance NFTs.
 
-## **Solution: INFT Framework**
+## Solution: INFT Framework
 
 INFT introduces **AI-powered, evolving NFTs** that grow in intelligence and value through user interactions. This is achieved through:
 
@@ -26,30 +33,30 @@ INFT introduces **AI-powered, evolving NFTs** that grow in intelligence and valu
 - **Decentralized Storage**: Powered by **Walrus**, ensuring secure and verifiable metadata management.
 - **Creator Royalties & Sustainable Monetization**: A dynamic royalty model rewards past owners based on their contributions to an NFT's evolution.
 
-## **Key Features**
+## Key Features
 
-### **1. AI-Driven Interaction**
+### 1. AI-Driven Interaction
 
 - INFTs respond and evolve based on user inputs and interactions.
 - Learning models enable INFTs to offer tailored responses, insights, and creative outputs.
 
-### **2. Interaction Count & Evolution Mechanism**
+### 2. Interaction Count & Evolution Mechanism
 
 - Each INFT tracks its **Interaction Count**, which determines its growth and value.
 - Owners can **purchase Interaction Tokens** to enhance NFT intelligence.
 - NFTs evolve into higher-tier versions based on user engagement and data inputs.
 
-### **3. Interaction Tokens (Request Quotes)**
+### 3. Interaction Tokens (Request Quotes)
 
 - Utility tokens that enable NFT training and advanced interactions.
 - Provide a **continuous revenue stream** by driving user engagement.
 
-### **4. Dynamic Royalties & Incentives**
+### 4. Dynamic Royalties & Incentives
 
 - Previous owners earn a percentage of future sales, determined by an NFT’s **Interaction Score**.
 - Encourages long-term value creation and shared ecosystem growth.
 
-### **5. INFT Marketplace**
+### 5. INFT Marketplace
 
 - Central hub for buying, selling, and trading INFTs.
 - Highlights an NFT’s **Interaction Score, evolution history, and unique attributes**.
@@ -97,9 +104,9 @@ sequenceDiagram
   Frontend->>User: Display gated content
 ```
 
-## **Business Model**
+## Business Model
 
-### **Revenue Streams**
+### Revenue Streams
 
 1. **Platform Revenue**
     - Transaction fees on NFT sales.
@@ -110,38 +117,38 @@ sequenceDiagram
     - Selling evolved NFTs at higher market value.
     - Monetizing AI-powered NFT utilities for businesses and applications.
 
-## **Roadmap**
+## Roadmap
 
-### **Phase 1: Development & Proof of Concept (Apr 4 - May 6, 2025)**
+### Phase 1: Development & Proof of Concept (Apr 4 - May 6, 2025)
 - Week 1: Research, architecture design, develop INFT smart contracts and AI logic on Sui
 - Week 2: Develop frontend UI for minting/training INFTs and integrate Sui Wallet
 - Week 3: Finalize MVP, perform testing, deploy to testnet/mainnet
 - Week 4: Debugging, documentation, and Sui Hackathon submission
 
-### **Phase 2: AI Expansion & Industry Applications**
+### Phase 2: AI Expansion & Industry Applications
 - Expand NFT evolution features (e.g., AI-generated art, learning capabilities)
 - Introduce more advanced tokenomics & Interaction Token utilities
 - Integrate cross-chain support and partner with gaming, metaverse, and entertainment platforms
 
-### **Phase 3: Marketplace Launch**
+### Phase 3: Marketplace Launch
 - Launch full-featured INFT marketplace with advanced filtering, evolution tracking, and user profile integration
 - Introduce view-only and owner-only content rendering with Seal-based access controls
 
-### **Phase 4: Token Economy & INFT Token Development**
+### Phase 4: Token Economy & INFT Token Development
 - Launch the **INFT native token** for governance, staking, and incentives.
 - Expand marketplace capabilities with staking and liquidity pools.
 - Develop decentralized AI-driven applications using INFT technology.
 
-## **Partnership Strategy**
+## Partnership Strategy
 
-### **Key Partnership Areas**
+### Key Partnership Areas
 
 - **Blockchain Networks**: Expansion beyond **Sui** for cross-chain compatibility.
 - **AI & Storage Providers**: Collaboration with Walrus for optimized decentralized storage.
 - **Gaming & Metaverse Projects**: Integration of AI-driven NFTs into gaming and virtual worlds.
 - **Artists & Content Creators**: Incentivizing adoption among musicians, writers, and visual artists.
 
-## **Use Cases**
+## Use Cases
 
 1. **Dynamic Digital Art** – Artists create NFTs that evolve over time
 2. **AI-Powered Collectibles** – Gamers own NFTs that change based on achievements
@@ -152,7 +159,7 @@ sequenceDiagram
 7. **Encrypted AI NFTs with Chat** – Users interact with INFTs using AI chat models like LLaMA
 8. **Secure Data Sharing** – Private NFT content managed by Seal access policies and decrypted on demand
 
-## **Conclusion**
+## Conclusion
 
 INFT is **not just another NFT platform**—it is the next evolution of digital assets. By combining **AI, decentralized storage, and dynamic engagement**, INFTs offer a **sustainable and scalable** alternative to traditional NFTs. As an **AI-powered NFT launchpad and marketplace**, INFT is set to revolutionize **digital ownership, creator economies, and Web3 interactions**.
 
