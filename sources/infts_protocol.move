@@ -209,6 +209,7 @@ module infts_protocol::inft_core {
         ctx: &mut TxContext,
     ) {
         assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
+        assert!(amount > 0, utils::einsufficient_balance());
         let coin_balance = coin::balance_mut(payment);
         let paid = balance::split(coin_balance, amount);
         balance::join(&mut self.balance, paid);
