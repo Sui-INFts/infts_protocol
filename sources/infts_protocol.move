@@ -208,6 +208,7 @@ module infts_protocol::inft_core {
         amount: u64,
         ctx: &mut TxContext,
     ) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         let coin_balance = coin::balance_mut(payment);
         let paid = balance::split(coin_balance, amount);
         balance::join(&mut self.balance, paid);
@@ -219,6 +220,7 @@ module infts_protocol::inft_core {
         amount: u64,
         ctx: &mut TxContext,
     ) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         assert!(amount <= self.balance.value(), utils::einsufficient_balance());
         let withdrawn = coin::from_balance(
             balance::split(&mut self.balance, amount),
