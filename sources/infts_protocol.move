@@ -144,20 +144,20 @@ module infts_protocol::inft_core {
         transfer::public_transfer(display, tx_context::sender(ctx));
     }
 
-    // Mint a new INFT
-    public entry fun mint_nft(
+    // Create a new INFT and return it (doesn't transfer)
+    public fun create_nft(
         name: String,
         description: String,
-        public_metadata_uri: String, // Walrus URI for metadata.json
-        private_metadata_uri: String, // Walrus URI for private.json
-        atoma_model_id: String, // Atoma AI model ID
+        public_metadata_uri: String,
+        private_metadata_uri: String,
+        atoma_model_id: String,
+        owner: address,
         ctx: &mut TxContext,
-    ) {
+    ): INFT {
         assert!(!string::is_empty(&name), ENO_EMPTY_NAME);
         assert!(!string::is_empty(&public_metadata_uri), ENO_EMPTY_PUBLIC_URI);
         assert!(!string::is_empty(&atoma_model_id), ENO_EMPTY_ATOMA_MODEL);
 
-        let sender = tx_context::sender(ctx);
         let nft = INFT {
             id: object::new(ctx),
             name,
@@ -168,7 +168,7 @@ module infts_protocol::inft_core {
             interaction_count: 0,
             evolution_stage: 0,
             balance: balance::zero(),
-            owner: sender,
+            owner,
         };
 
         let nft_id = object::uid_to_inner(&nft.id);
@@ -176,9 +176,31 @@ module infts_protocol::inft_core {
             nft_id,
             name,
             public_metadata_uri,
-            owner: sender,
+            owner,
         });
+        nft
+    }
+    // Mint a new INFT
+    public entry fun mint_nft(
+        name: String,
+        description: String,
+        public_metadata_uri: String,
+        private_metadata_uri: String,
+        atoma_model_id: String,
+        ctx: &mut TxContext,
+    ) {
+        let sender = tx_context::sender(ctx);
+        let nft = create_nft(
+            name,
+            description,
+            public_metadata_uri,
+            private_metadata_uri,
+            atoma_model_id,
+            sender,
+            ctx
+        );
 
+        // Transfer the INFT to the sender
         transfer::public_transfer(nft, sender);
     }
 

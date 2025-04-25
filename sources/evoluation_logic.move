@@ -28,7 +28,7 @@ module infts_protocol::evolution_logic {
         new_private_metadata_uri: String,
         ctx: &mut TxContext,
     ) {
-        assert!(access_policy::verify_access(inft, tx_context::sender(ctx), ctx), ENO_AUTHORIZED);
+        assert!(access_policy::verify_access(inft, tx_context::sender(ctx)), ENO_AUTHORIZED);
 
         // Use setters to update fields
         inft_core::set_public_metadata_uri(inft, new_public_metadata_uri);
