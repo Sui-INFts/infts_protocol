@@ -1,11 +1,16 @@
-<h1>
-    <img src=https://github.com/user-attachments/assets/09cc62dc-6f06-49d2-9e26-26485d91a9f9 align=center width="100" height="100"> INFT: Intelligent NFT
-</h1>
+<h1 align="center">INFT: Intelligent NFT</h1>
 
-#### [Live Demo](https://www.infts.xyz/) | [Pitchdeck]() | [Demo Video]()
+<h3 align="center">Redefining Digital Ownership with Intelligence on SUI</h3>
 
-## Core Features
-#### [Sui Network]() | [Walrus]() | [Atoma]()
+<p align="center">
+  <a href="https://www.infts.xyz/" style="color: #a77dff">Platform</a> | <a href="" style="color: #a77dff">Pitchdeck</a> | <a href="" style="color: #a77dff">Demo Video</a>
+</p>
+
+<p align="center">
+  <a href="" style="color: #a77dff">Sui Network</a> | <a href="" style="color: #a77dff">Walrus</a> | <a href="" style="color: #a77dff">Atoma</a>
+</p>
+
+![image](https://github.com/user-attachments/assets/2fc951f2-a160-4388-9275-a044a28e0290)
 
 ## Overview
 
