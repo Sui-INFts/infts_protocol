@@ -2,7 +2,7 @@
     <img src=https://github.com/user-attachments/assets/09cc62dc-6f06-49d2-9e26-26485d91a9f9 align=center width="100" height="100"> INFT: Intelligent NFT
 </h1>
 
-#### [Live Demo]() | [Pitchdeck]() | [Demo Video]()
+#### [Live Demo](https://www.infts.xyz/) | [Pitchdeck]() | [Demo Video]()
 
 ## Core Features
 #### [Sui Network]() | [Walrus]() | [Atoma]()
