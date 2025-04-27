@@ -29,7 +29,7 @@ module infts_protocol::access_policy {
     }
 
     // Admin Capability
-    public struct AdminCap has key { id: UID }
+    public struct AdminCap has key, store { id: UID }
 
     // Error codes
     const ENO_OWNER: u64 = 3;
@@ -186,4 +186,8 @@ module infts_protocol::access_policy {
     public fun create_admin_cap(ctx: &mut TxContext): AdminCap {
         AdminCap { id: object::new(ctx) }
     }
+
+    public fun admin_cap_id(cap: &AdminCap): &UID {
+    &cap.id
+}
 }

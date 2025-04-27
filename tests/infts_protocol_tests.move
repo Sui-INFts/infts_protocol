@@ -330,7 +330,7 @@ module infts_protocol::infts_protocol_tests {
         {
             let nft = scenario.take_from_sender<INFT>();
             let ctx = scenario.ctx();
-            assert!(access_policy::verify_access(&nft, USER, ctx), 0);
+            assert!(access_policy::verify_access(&nft, USER), 0);
             test_scenario::return_to_sender(&scenario, nft);
         };
         scenario.end();
@@ -360,7 +360,7 @@ module infts_protocol::infts_protocol_tests {
         {
             let nft = scenario.take_from_sender<INFT>();
             let ctx = scenario.ctx();
-            assert!(!access_policy::verify_access(&nft, ATTACKER, ctx), 0);
+            assert!(!access_policy::verify_access(&nft, ATTACKER), 0);
             test_scenario::return_to_sender(&scenario, nft);
         };
         scenario.end();
@@ -518,6 +518,333 @@ module infts_protocol::infts_protocol_tests {
             let policy = scenario.take_from_sender<AccessPolicy>();
             assert!(access_policy::get_seal_policy_id(&policy) == string::utf8(b"seal-123"), 0);
             test_scenario::return_to_sender(&scenario, policy);
+        };
+        scenario.end();
+    }
+
+    // Test: Update metadata URI as owner
+    #[test]
+    fun test_update_metadata_uri() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            access_policy::update_metadata_uri(&mut nft, string::utf8(b"walrus://updated_public"), ctx);
+            assert!(inft_core::public_metadata_uri(&nft) == string::utf8(b"walrus://updated_public"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Update metadata URI fails for non-owner
+    #[test, expected_failure]
+    fun test_update_metadata_uri_non_owner() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, ATTACKER);
+        {
+            let mut nft = test_scenario::take_from_address<INFT>(&scenario, USER);
+            let ctx = scenario.ctx();
+            access_policy::update_metadata_uri(&mut nft, string::utf8(b"walrus://hacked"), ctx);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Update encrypted URI as owner
+    #[test]
+    fun test_update_encrypted_uri() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            access_policy::update_encrypted_uri(&mut nft, string::utf8(b"walrus://updated_private"), ctx);
+            assert!(inft_core::private_metadata_uri(&nft) == string::utf8(b"walrus://updated_private"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Update encrypted URI fails for non-owner
+    #[test, expected_failure]
+    fun test_update_encrypted_uri_non_owner() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, ATTACKER);
+        {
+            let mut nft = test_scenario::take_from_address<INFT>(&scenario, USER);
+            let ctx = scenario.ctx();
+            access_policy::update_encrypted_uri(&mut nft, string::utf8(b"walrus://hacked_private"), ctx);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Update policy ID as owner
+    #[test]
+    fun test_update_policy_id() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            access_policy::attach_policy(&mut nft, string::utf8(b"seal-123"), ctx);
+            assert!(access_policy::get_policy_id(&nft) == string::utf8(b"seal-123"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            access_policy::update_policy_id(&mut nft, string::utf8(b"seal-456"), ctx);
+            assert!(access_policy::get_policy_id(&nft) == string::utf8(b"seal-456"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Update policy ID fails for non-owner
+    #[test, expected_failure]
+    fun test_update_policy_id_non_owner() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            access_policy::attach_policy(&mut nft, string::utf8(b"seal-123"), ctx);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        test_scenario::next_tx(&mut scenario, ATTACKER);
+        {
+            let mut nft = test_scenario::take_from_address<INFT>(&scenario, USER);
+            let ctx = scenario.ctx();
+            access_policy::update_policy_id(&mut nft, string::utf8(b"seal-hacked"), ctx);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Create and use admin capability
+    #[test]
+fun test_admin_cap() {
+    let mut scenario = test_scenario::begin(ADMIN);
+    {
+        let ctx = scenario.ctx();
+        inft_core::init_for_testing(ctx);
+        let admin_cap = access_policy::create_admin_cap(ctx);
+        transfer::public_transfer(admin_cap, ADMIN);
+    };
+    test_scenario::next_tx(&mut scenario, ADMIN);
+    {
+        let admin_cap = scenario.take_from_sender<access_policy::AdminCap>();
+        assert!(object::uid_to_address(access_policy::admin_cap_id(&admin_cap)) != @0x0, 0);
+        test_scenario::return_to_sender(&scenario, admin_cap);
+    };
+    scenario.end();
+}
+
+    // Test: Admin mint NFT
+    #[test]
+    fun test_admin_mint_nft() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+            let admin_cap = access_policy::create_admin_cap(ctx);
+            transfer::public_transfer(admin_cap, ADMIN);
+        };
+        test_scenario::next_tx(&mut scenario, ADMIN);
+        {
+            let admin_cap = scenario.take_from_sender<access_policy::AdminCap>();
+            let ctx = scenario.ctx();
+            access_policy::admin_mint_nft(
+                &admin_cap,
+                string::utf8(b"Admin INFT"),
+                string::utf8(b"Admin Intelligent NFT"),
+                string::utf8(b"walrus://admin_public"),
+                string::utf8(b"walrus://admin_private"),
+                string::utf8(b"atoma-admin"),
+                string::utf8(b"seal-admin"),
+                1, // NFT type
+                USER, // recipient
+                ctx
+            );
+            test_scenario::return_to_sender(&scenario, admin_cap);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let nft = scenario.take_from_sender<INFT>();
+            assert!(inft_core::name(&nft) == string::utf8(b"Admin INFT"), 0);
+            assert!(inft_core::public_metadata_uri(&nft) == string::utf8(b"walrus://admin_public"), 0);
+            assert!(inft_core::private_metadata_uri(&nft) == string::utf8(b"walrus://admin_private"), 0);
+            assert!(inft_core::atoma_model_id(&nft) == string::utf8(b"atoma-admin"), 0);
+            assert!(inft_core::owner(&nft) == USER, 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let policy = scenario.take_from_sender<AccessPolicy>();
+            assert!(access_policy::get_seal_policy_id(&policy) == string::utf8(b"seal-admin"), 0);
+            test_scenario::return_to_sender(&scenario, policy);
+        };
+        scenario.end();
+    }
+
+    // Test: Admin mint NFT with invalid NFT type
+    #[test, expected_failure]
+    fun test_admin_mint_nft_invalid_type() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+            let admin_cap = access_policy::create_admin_cap(ctx);
+            transfer::public_transfer(admin_cap, ADMIN);
+        };
+        test_scenario::next_tx(&mut scenario, ADMIN);
+        {
+            let admin_cap = scenario.take_from_sender<access_policy::AdminCap>();
+            let ctx = scenario.ctx();
+            access_policy::admin_mint_nft(
+                &admin_cap,
+                string::utf8(b"Admin INFT"),
+                string::utf8(b"Admin Intelligent NFT"),
+                string::utf8(b"walrus://admin_public"),
+                string::utf8(b"walrus://admin_private"),
+                string::utf8(b"atoma-admin"),
+                string::utf8(b"seal-admin"),
+                4, // Invalid NFT type (should be <= 3)
+                USER, // recipient
+                ctx
+            );
+            test_scenario::return_to_sender(&scenario, admin_cap);
+        };
+        scenario.end();
+    }
+
+    // Test: Update policy when no policy exists
+    #[test]
+    fun test_update_policy_id_no_existing_policy() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            // No policy exists yet, but we can still update
+            access_policy::update_policy_id(&mut nft, string::utf8(b"seal-new"), ctx);
+            assert!(access_policy::get_policy_id(&nft) == string::utf8(b"seal-new"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
         };
         scenario.end();
     }
