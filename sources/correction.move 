@@ -1,4 +1,3 @@
-//move
 // Copyright (c) Infts.
 
 module infts_protocol::inft_core {
@@ -19,7 +18,7 @@ module infts_protocol::inft_core {
         id: UID,
         name: String,
         description: String,
-        image_url: String, // Direct Upload URL from Walrus
+        image_url: String, // Direct image URL from Walrus
         public_metadata_uri: String, // Walrus URI for public metadata (e.g., metadata.json)
         private_metadata_uri: String, // Walrus URI for encrypted private data (e.g., private.json)
         atoma_model_id: String, // Atoma AI model reference
@@ -100,26 +99,28 @@ module infts_protocol::inft_core {
     }
 
     // Setter functions for evolution_logic and internal use
-
-      // Setter functions for evolution_logic and internal use
     public fun set_image_url(self: &mut INFT, url: String, ctx: &TxContext) {
         assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.image_url = url;
     }
 
-    public fun set_public_metadata_uri(self: &mut INFT, uri: String) {
+    public fun set_public_metadata_uri(self: &mut INFT, uri: String, ctx: &TxContext) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.public_metadata_uri = uri;
     }
 
-    public fun set_private_metadata_uri(self: &mut INFT, uri: String) {
+    public fun set_private_metadata_uri(self: &mut INFT, uri: String, ctx: &TxContext) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.private_metadata_uri = uri;
     }
 
-    public fun increment_interaction_count(self: &mut INFT) {
+    public fun increment_interaction_count(self: &mut INFT, ctx: &TxContext) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.interaction_count = self.interaction_count + 1;
     }
 
-    public fun increment_evolution_stage(self: &mut INFT) {
+    public fun increment_evolution_stage(self: &mut INFT, ctx: &TxContext) {
+        assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.evolution_stage = self.evolution_stage + 1;
     }
 
@@ -141,7 +142,7 @@ module infts_protocol::inft_core {
             string::utf8(b"image_url"),
             string::utf8(b"evolution_stage"),
         ];
-         let values = vector[
+        let values = vector[
             string::utf8(b"{name}"),
             string::utf8(b"{description}"),
             string::utf8(b"{image_url}"), // This now directly uses image_url field
@@ -160,18 +161,18 @@ module infts_protocol::inft_core {
 
     // Create a new INFT and return it (doesn't transfer)
     public fun create_nft(
-        name: String,
+        name: String, 
         description: String,
         image_url: String,
         public_metadata_uri: String,
-        private_metadata_uri: String,
+        private_metadata_uri: String, 
         atoma_model_id: String,
         owner: address,
         ctx: &mut TxContext,
     ): INFT {
         assert!(!string::is_empty(&name), ENO_EMPTY_NAME);
-        assert!(!string::is_empty(&public_metadata_uri), ENO_EMPTY_PUBLIC_URI);
         assert!(!string::is_empty(&image_url), ENO_EMPTY_IMAGE_URL);
+        assert!(!string::is_empty(&public_metadata_uri), ENO_EMPTY_PUBLIC_URI);
         assert!(!string::is_empty(&atoma_model_id), ENO_EMPTY_ATOMA_MODEL);
 
         let nft = INFT {
@@ -198,6 +199,7 @@ module infts_protocol::inft_core {
         });
         nft
     }
+    
     // Mint a new INFT
     public entry fun mint_nft(
         name: String,

@@ -21,9 +21,9 @@ module infts_protocol::infts_protocol_tests {
     const ENO_EMPTY_NAME: u64 = 0;
     const ENO_EMPTY_PUBLIC_URI: u64 = 1;
     const ENO_EMPTY_ATOMA_MODEL: u64 = 2;
-    const EINSUFFICIENT_BALANCE: u64 = 2;
-    const ENO_OWNER: u64 = 3;
-    const ENO_AUTHORIZED: u64 = 4;
+    const ENO_INSUFFICIENT_BALANCE: u64 = 3;
+    const ENO_OWNER: u64 = 4;
+    const ENO_AUTHORIZED: u64 = 5;
 
     // Test addresses
     const ADMIN: address = @0xa11ce;
@@ -68,6 +68,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -104,6 +105,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b""),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -114,7 +116,7 @@ module infts_protocol::infts_protocol_tests {
     }
 
     // Test: Mint fails with empty public URI
-    #[test, expected_failure]
+    #[test, expected_failure(ENO_EMPTY_PUBLIC_URI)]
     fun test_mint_nft_empty_public_uri() {
         let mut scenario = test_scenario::begin(ADMIN);
         {
@@ -127,6 +129,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b""),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -150,6 +153,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b""),
@@ -173,6 +177,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -223,9 +228,10 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -251,11 +257,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -288,11 +295,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -320,6 +328,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -348,11 +357,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -378,11 +388,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -417,11 +428,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -456,6 +468,7 @@ module infts_protocol::infts_protocol_tests {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),
@@ -534,11 +547,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -565,11 +579,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -595,11 +610,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -626,11 +642,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -656,11 +673,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -695,11 +713,12 @@ module infts_protocol::infts_protocol_tests {
         {
             let ctx = scenario.ctx();
             inft_core::mint_nft(
-                string::utf8(b"Test INFT"),
+                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
-                string::utf8(b"atoma-123"),
+                string::utf8(b""),
                 ctx
             );
         };
@@ -722,22 +741,22 @@ module infts_protocol::infts_protocol_tests {
 
     // Test: Create and use admin capability
     #[test]
-fun test_admin_cap() {
-    let mut scenario = test_scenario::begin(ADMIN);
-    {
-        let ctx = scenario.ctx();
-        inft_core::init_for_testing(ctx);
-        let admin_cap = access_policy::create_admin_cap(ctx);
-        transfer::public_transfer(admin_cap, ADMIN);
-    };
-    test_scenario::next_tx(&mut scenario, ADMIN);
-    {
-        let admin_cap = scenario.take_from_sender<access_policy::AdminCap>();
-        assert!(object::uid_to_address(access_policy::admin_cap_id(&admin_cap)) != @0x0, 0);
-        test_scenario::return_to_sender(&scenario, admin_cap);
-    };
-    scenario.end();
-}
+    fun test_admin_cap() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+            let admin_cap = access_policy::create_admin_cap(ctx);
+            transfer::public_transfer(admin_cap, ADMIN);
+        };
+        test_scenario::next_tx(&mut scenario, ADMIN);
+        {
+            let admin_cap = scenario.take_from_sender<access_policy::AdminCap>();
+            assert!(object::uid_to_address(access_policy::admin_cap_id(&admin_cap)) != @0x0, 0);
+            test_scenario::return_to_sender(&scenario, admin_cap);
+        };
+        scenario.end();
+    }
 
     // Test: Admin mint NFT
     #[test]
@@ -757,6 +776,7 @@ fun test_admin_cap() {
                 &admin_cap,
                 string::utf8(b"Admin INFT"),
                 string::utf8(b"Admin Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://admin_public"),
                 string::utf8(b"walrus://admin_private"),
                 string::utf8(b"atoma-admin"),
@@ -804,6 +824,7 @@ fun test_admin_cap() {
                 &admin_cap,
                 string::utf8(b"Admin INFT"),
                 string::utf8(b"Admin Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://admin_public"),
                 string::utf8(b"walrus://admin_private"),
                 string::utf8(b"atoma-admin"),
@@ -831,6 +852,7 @@ fun test_admin_cap() {
             inft_core::mint_nft(
                 string::utf8(b"Test INFT"),
                 string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
                 string::utf8(b"walrus://public"),
                 string::utf8(b"walrus://private"),
                 string::utf8(b"atoma-123"),

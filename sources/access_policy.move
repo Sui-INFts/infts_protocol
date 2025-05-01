@@ -92,6 +92,7 @@ module infts_protocol::access_policy {
         _admin_cap: &AdminCap,
         name: String,
         description: String,
+        image_url: String,
         public_metadata_uri: String,
         private_metadata_uri: String,
         atoma_model_id: String,
@@ -105,14 +106,15 @@ module infts_protocol::access_policy {
 
         // Create the new NFT via inft_core module
         let mut inft = inft_core::create_nft(
-        name,
-        description,
-        public_metadata_uri,
-        private_metadata_uri,
-        atoma_model_id,
-        recipient,
-        ctx
-    );
+            name,
+            description,
+            image_url,
+            public_metadata_uri,
+            private_metadata_uri,
+            atoma_model_id,
+            recipient,
+            ctx
+        );
 
         // Get the INFT object ID for tracking
         let inft_id = object::uid_to_inner(inft_core::id(&inft));
