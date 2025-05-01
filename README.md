@@ -38,6 +38,16 @@ INFT introduces **AI-powered, evolving NFTs** that grow in intelligence and valu
 - **Decentralized Storage**: Powered by **Walrus**, ensuring secure and verifiable metadata management.
 - **Creator Royalties & Sustainable Monetization**: A dynamic royalty model rewards past owners based on their contributions to an NFT's evolution.
 
+## How it works
+
+![image](https://github.com/user-attachments/assets/d3d0a1f8-e181-4eb3-a170-2c5b2e0234ac)
+
+1. A user mint an INFT.
+2. The user interacts with the AI by leveraging the Atoma network.
+3. The metadata from the interaction is then self-generated and stored in Walrus storage along with the score, and an NFT is created and updated via a smart contract.
+
+Afterwards, whenever metadata is uploaded to Walrus storage and the interaction score is updated, the data is encrypted via encryption, and the data verification and unlocking process is repeated using SEAL until the metadata is stored.
+
 ## Key Features
 
 ### 1. AI-Driven Interaction
