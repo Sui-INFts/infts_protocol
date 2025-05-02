@@ -134,7 +134,7 @@ sequenceDiagram
 
 ## Roadmap
 
-### Phase 1: Development & Proof of Concept (Apr 4 - May 6, 2025)
+### Phase 1: Development & Proof of Concept (Apr 4 - May 10, 2025)
 - Week 1: Research, architecture design, develop INFT smart contracts and AI logic on Sui
 - Week 2: Develop frontend UI for minting/training INFTs and integrate Sui Wallet
 - Week 3: Finalize MVP, perform testing, deploy to testnet/mainnet
