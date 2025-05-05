@@ -14,9 +14,13 @@
 
 ## Overview
 
-INFT (Intelligent NFT) is an innovative AI-driven NFT framework that enhances traditional NFTs by integrating **evolving intelligence, user interaction, and decentralized storage**. Unlike static NFTs that offer limited engagement beyond ownership and trading, INFTs adapt and grow based on user interactions, increasing their long-term value and utility.
+**INFT (Intelligent NFT)** is a project designed to overcome the limitations of traditional, static, and one-way NFTs by introducing **interactive and evolving digital assets**. By integrating AI and blockchain technologies, INFT transforms NFTs from mere collectibles into intelligent digital entities capable of communication, memory, and emotional expression.
 
-By leveraging **Walrus** for cost-effective and decentralized storage on the **Sui blockchain**, INFTs provide a scalable and resilient infrastructure for digital assets that evolve dynamically over time. This project aims to create an **AI-powered NFT marketplace** where creators, collectors, and businesses can interact with intelligent NFTs, unlocking new opportunities for engagement, monetization, and utility.
+Rooted in the core Web3 principles of **personalization, interactivity, and autonomy**, INFTs grow and evolve based on user interactions. For instance, through continuous conversations or user-driven activities, an INFT’s personality, appearance, and potential functionalities dynamically change. These interactions are transparently recorded on the blockchain, ensuring verifiability, while personal data is securely protected through advanced privacy-preserving technologies.
+
+INFT is built on the **object-oriented architecture of the Sui blockchain**, with AI computation handled within **Atoma Network’s Trusted Execution Environment (TEE)**. The project also utilizes **Seal Protocol** for conditional access to private data and **Walrus** for the separation of public and private metadata, ensuring **user trust and data sovereignty**.
+
+Ultimately, INFT goes beyond static NFTs by pioneering a new paradigm of intelligent Web3 content — from **AI companions** and **emotionally expressive digital characters** to **evolving digital assets**. It has potential applications across gaming, messaging, the metaverse, digital humans, and more, positioning itself as a groundbreaking shift in how NFTs are conceived and used.
 
 ## Problem Statement
 
