@@ -1,4 +1,4 @@
-//move
+
 // Copyright (c) Infts.
 
 module infts_protocol::inft_core {
@@ -25,6 +25,7 @@ module infts_protocol::inft_core {
         atoma_model_id: String, // Atoma AI model reference
         interaction_count: u64, // Tracks user interactions
         evolution_stage: u64, // Current evolution level
+        quote_count: u64, // Tracks number of quotes associated with the iNFT
         balance: Balance<SUI>, // For fees or rewards
         owner: address, // Explicit owner field
     }
@@ -38,6 +39,7 @@ module infts_protocol::inft_core {
         name: String,
         image_url: String,
         public_metadata_uri: String,
+        quote_count: u64,
         owner: address,
     }
 
@@ -45,6 +47,13 @@ module infts_protocol::inft_core {
         nft_id: ID,
         from: address,
         to: address,
+    }
+
+    public struct UpdateBalanceEvent has copy, drop {
+        nft_id: ID,
+        amount: u64, // Amount added in MIST
+        quote_count: u64, // Updated quote count
+        owner: address,
     }
 
     // Error codes
@@ -91,6 +100,10 @@ module infts_protocol::inft_core {
         self.evolution_stage
     }
 
+    public fun quote_count(self: &INFT): u64 {
+        self.quote_count
+    }
+
     public fun balance(self: &INFT): &Balance<SUI> {
         &self.balance
     }
@@ -100,8 +113,6 @@ module infts_protocol::inft_core {
     }
 
     // Setter functions for evolution_logic and internal use
-
-      // Setter functions for evolution_logic and internal use
     public fun set_image_url(self: &mut INFT, url: String, ctx: &TxContext) {
         assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         self.image_url = url;
@@ -123,6 +134,10 @@ module infts_protocol::inft_core {
         self.evolution_stage = self.evolution_stage + 1;
     }
 
+    public fun increment_quote_count(self: &mut INFT) {
+        self.quote_count = self.quote_count + 1;
+    }
+
     fun set_owner(self: &mut INFT, new_owner: address) {
         self.owner = new_owner;
     }
@@ -140,12 +155,14 @@ module infts_protocol::inft_core {
             string::utf8(b"description"),
             string::utf8(b"image_url"),
             string::utf8(b"evolution_stage"),
+            string::utf8(b"quote_count"),
         ];
-         let values = vector[
+        let values = vector[
             string::utf8(b"{name}"),
             string::utf8(b"{description}"),
-            string::utf8(b"{image_url}"), // This now directly uses image_url field
+            string::utf8(b"{image_url}"),
             string::utf8(b"{evolution_stage}"),
+            string::utf8(b"{quote_count}"),
         ];
 
         let publisher = package::claim(witness, ctx);
@@ -184,6 +201,7 @@ module infts_protocol::inft_core {
             atoma_model_id,
             interaction_count: 0,
             evolution_stage: 0,
+            quote_count: 0,
             balance: balance::zero(),
             owner,
         };
@@ -194,10 +212,12 @@ module infts_protocol::inft_core {
             name,
             image_url,
             public_metadata_uri,
+            quote_count: 0,
             owner,
         });
         nft
     }
+
     // Mint a new INFT
     public entry fun mint_nft(
         name: String,
@@ -243,7 +263,7 @@ module infts_protocol::inft_core {
         transfer::public_transfer(nft, new_owner);
     }
 
-    // Add SUI to INFT balance (e.g., for interaction fees)
+    // Add SUI to INFT balance and increment quote_count (1 SUI = 10 quotes)
     public entry fun add_balance(
         self: &mut INFT,
         payment: &mut Coin<SUI>,
@@ -252,9 +272,25 @@ module infts_protocol::inft_core {
     ) {
         assert!(tx_context::sender(ctx) == self.owner, ENO_OWNER);
         assert!(amount > 0, utils::einsufficient_balance());
+
+        // Add SUI to balance
         let coin_balance = coin::balance_mut(payment);
         let paid = balance::split(coin_balance, amount);
         balance::join(&mut self.balance, paid);
+
+        // Calculate quote_count increment: 1 SUI (10^9 MIST) = 10 quotes
+        let sui_amount = amount / 1_000_000_000; // Convert MIST to SUI
+        let quote_increment = sui_amount * 10; // 10 quotes per SUI
+        self.quote_count = self.quote_count + quote_increment;
+
+        // Emit event for frontend
+        let nft_id = object::uid_to_inner(&self.id);
+        event::emit(UpdateBalanceEvent {
+            nft_id,
+            amount,
+            quote_count: self.quote_count,
+            owner: self.owner,
+        });
     }
 
     // Withdraw SUI from INFT balance

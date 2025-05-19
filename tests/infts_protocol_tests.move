@@ -116,7 +116,7 @@ module infts_protocol::infts_protocol_tests {
     }
 
     // Test: Mint fails with empty public URI
-    #[test, expected_failure(ENO_EMPTY_PUBLIC_URI)]
+    #[test, expected_failure(abort_code = ENO_EMPTY_PUBLIC_URI)]
     fun test_mint_nft_empty_public_uri() {
         let mut scenario = test_scenario::begin(ADMIN);
         {
@@ -866,6 +866,49 @@ module infts_protocol::infts_protocol_tests {
             // No policy exists yet, but we can still update
             access_policy::update_policy_id(&mut nft, string::utf8(b"seal-new"), ctx);
             assert!(access_policy::get_policy_id(&nft) == string::utf8(b"seal-new"), 0);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        scenario.end();
+    }
+
+    // Test: Add 10 SUI to INFT balance and verify 100 quotes added
+    #[test]
+    fun test_add_balance_10_sui() {
+        let mut scenario = test_scenario::begin(ADMIN);
+        {
+            let ctx = scenario.ctx();
+            inft_core::init_for_testing(ctx);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let ctx = scenario.ctx();
+            inft_core::mint_nft(
+                string::utf8(b"Test INFT"),
+                string::utf8(b"Intelligent NFT"),
+                string::utf8(b"walrus://image"),
+                string::utf8(b"walrus://public"),
+                string::utf8(b"walrus://private"),
+                string::utf8(b"atoma-123"),
+                ctx
+            );
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let mut nft = scenario.take_from_sender<INFT>();
+            let ctx = scenario.ctx();
+            let mut payment = mint_sui(10_000_000_000, ctx); // 10 SUI
+            inft_core::add_balance(&mut nft, &mut payment, 10_000_000_000, ctx);
+            assert!(inft_core::balance(&nft).value() == 10_000_000_000, 0);
+            assert!(inft_core::quote_count(&nft) == 100, 1);
+            coin::burn_for_testing(payment);
+            test_scenario::return_to_sender(&scenario, nft);
+        };
+        test_scenario::next_tx(&mut scenario, USER);
+        {
+            let nft = scenario.take_from_sender<INFT>();
+            assert!(inft_core::balance(&nft).value() == 10_000_000_000, 2);
+            assert!(inft_core::quote_count(&nft) == 100, 3);
+            assert!(inft_core::owner(&nft) == USER, 4);
             test_scenario::return_to_sender(&scenario, nft);
         };
         scenario.end();
