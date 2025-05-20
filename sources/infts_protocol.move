@@ -5,11 +5,9 @@ module infts_protocol::inft_core {
     use sui::package;
     use sui::display;
     use sui::event;
-    // use sui::balance::{Self, Balance};
-    use sui::balance::{Self, Balance, split};
+    use sui::balance::{Self, Balance};
     use sui::sui::SUI;
-    // use sui::coin::{Self, Coin};
-    use sui::coin::{Self, Coin, from_balance};
+    use sui::coin::{Self, Coin};
     use std::string::{Self, String};
     use std::option::{Self, Option};
     use infts_protocol::utils::{Self};
@@ -57,6 +55,13 @@ module infts_protocol::inft_core {
         from: address,
         to: address,
     }
+    
+    public struct BurnINFTEvent has copy, drop {
+        nft_id: ID,
+        name: String,
+        owner: address,
+        balance_returned: u64,
+    }
 
     public struct UpdateBalanceEvent has copy, drop {
         nft_id: ID,
@@ -103,6 +108,7 @@ module infts_protocol::inft_core {
     const ENO_INSUFFICIENT_PAYMENT: u64 = 7;
     const ENO_MARKETPLACE_ADMIN: u64 = 8;
     const ENO_ZERO_PRICE: u64 = 9;
+    const ENO_LISTED_FOR_SALE: u64 = 10;
 
     // Getter functions for frontend and testing
     public fun id(self: &INFT): &UID {
@@ -187,7 +193,9 @@ module infts_protocol::inft_core {
         self.quote_count = self.quote_count + 1;
     }
 
-    // Set the owner field directly in functions that need it
+    public fun set_owner(self: &mut INFT, new_owner: address) {
+        self.owner = new_owner;
+    }
 
     #[test_only]
     public fun init_for_testing(ctx: &mut TxContext) {
@@ -386,23 +394,32 @@ module infts_protocol::inft_core {
         let old_owner = nft.owner;
         let nft_id = object::uid_to_inner(&nft.id);
         
-        // Create mutable instance with updated owner
-        let mut updated_nft = nft;
-        
         // Reset listing if any
-        if (option::is_some(&updated_nft.listing_price)) {
-            updated_nft.listing_price = option::none();
-        };
-        
-        // Update owner directly
-        updated_nft.owner = new_owner;
-        
-        event::emit(TransferINFTEvent {
-            nft_id,
-            from: old_owner,
-            to: new_owner,
-        });
-        transfer::public_transfer(updated_nft, new_owner);
+        if (option::is_some(&nft.listing_price)) {
+            let mut nft = nft;  // Make mutable to modify
+            nft.listing_price = option::none();
+            nft.owner = new_owner;  // Update owner directly
+            
+            event::emit(TransferINFTEvent {
+                nft_id,
+                from: old_owner,
+                to: new_owner,
+            });
+            
+            transfer::public_transfer(nft, new_owner);
+        } else {
+            // If not listed, update directly
+            let mut nft = nft;  // Make mutable to modify
+            nft.owner = new_owner;  // Update owner directly
+            
+            event::emit(TransferINFTEvent {
+                nft_id,
+                from: old_owner,
+                to: new_owner,
+            });
+            
+            transfer::public_transfer(nft, new_owner);
+        }
     }
 
     // List an INFT for sale
@@ -510,7 +527,7 @@ module infts_protocol::inft_core {
             let fee_payment = balance::split(coin_balance, fee_amount);
             let fee_coin = coin::from_balance(fee_payment, ctx);
             transfer::public_transfer(fee_coin, marketplace.fee_recipient);
-        };
+        }
         
         // Send payment to seller
         let seller_payment = balance::split(coin_balance, seller_amount);
@@ -520,15 +537,13 @@ module infts_protocol::inft_core {
         // Update marketplace listings count
         marketplace.listings_count = marketplace.listings_count - 1;
         
-        // Create mutable instance with updated state
-        let mut updated_nft = nft;
-        
         // Remove listing and update owner
-        updated_nft.listing_price = option::none();
-        updated_nft.owner = buyer;
+        let mut nft = nft;  // Make mutable to modify
+        nft.listing_price = option::none();
+        nft.owner = buyer;  // Update owner directly
         
         // Emit purchase event
-        let nft_id = object::uid_to_inner(&updated_nft.id);
+        let nft_id = object::uid_to_inner(&nft.id);
         event::emit(PurchaseINFTEvent {
             nft_id,
             seller,
@@ -538,7 +553,7 @@ module infts_protocol::inft_core {
         });
         
         // Transfer NFT to buyer
-        transfer::public_transfer(updated_nft, buyer);
+        transfer::public_transfer(nft, buyer);
     }
 
     // Add SUI to INFT balance and increment quote_count (1 SUI = 10 quotes)
@@ -584,6 +599,70 @@ module infts_protocol::inft_core {
             ctx,
         );
         transfer::public_transfer(withdrawn, tx_context::sender(ctx));
+    }
+
+    // Burn an INFT and return the balance to the owner
+    public entry fun burn_nft(
+        nft: INFT,
+        marketplace: &mut Marketplace,
+        ctx: &mut TxContext,
+    ) {
+        // Only owner can burn
+        assert!(tx_context::sender(ctx) == nft.owner, ENO_OWNER);
+        
+        // Can't burn if listed for sale (must cancel listing first)
+        assert!(option::is_none(&nft.listing_price), ENO_LISTED_FOR_SALE);
+        
+        // Update marketplace listings count if somehow a listed NFT is being burned
+        // (This should never happen due to the check above, but added for safety)
+        if (option::is_some(&nft.listing_price)) {
+            marketplace.listings_count = marketplace.listings_count - 1;
+        }
+        
+        // Get the NFT ID and other info we need for the event before deletion
+        let nft_id = object::uid_to_inner(&nft.id);
+        let owner = nft.owner;
+        let name = nft.name;
+        
+        // Extract the balance amount
+        let balance_amount = balance::value(&nft.balance);
+        
+        // Destructure the NFT to get the important parts
+        let INFT {
+            id,
+            name: _,
+            description: _,
+            image_url: _,
+            public_metadata_uri: _,
+            private_metadata_uri: _,
+            atoma_model_id: _,
+            interaction_count: _,
+            evolution_stage: _,
+            quote_count: _,
+            balance,
+            owner: _,
+            listing_price: _,
+        } = nft;
+        
+        // If there's a balance, return it to the owner
+        if (balance_amount > 0) {
+            let coin = coin::from_balance(balance, ctx);
+            transfer::public_transfer(coin, owner);
+        } else {
+            // If no balance, we still need to destroy the empty balance
+            balance::destroy_zero(balance);
+        }
+        
+        // Emit burn event
+        event::emit(BurnINFTEvent {
+            nft_id,
+            name,
+            owner,
+            balance_returned: balance_amount,
+        });
+        
+        // Delete the NFT object
+        object::delete(id);
     }
 
     // Marketplace admin functions
