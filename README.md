@@ -3,7 +3,7 @@
 <h3 align="center">Redefining Digital Ownership with Intelligence on SUI</h3>
 
 <p align="center">
-  <a href="https://www.infts.xyz/" style="color: #a77dff">Platform</a> | <a href="https://www.figma.com/deck/kwP13UO8pV2k9MXNpKWfUr" style="color: #a77dff">Pitchdeck</a> | <a href="" style="color: #a77dff">Demo Video</a>
+  <a href="https://www.infts.xyz/" style="color: #a77dff">Platform</a> | <a href="https://www.figma.com/deck/kwP13UO8pV2k9MXNpKWfUr" style="color: #a77dff">Pitchdeck</a> | <a href="https://www.loom.com/share/4ace5226dd1249ee8b7ded31c665e289?sid=9616896b-0370-4883-809b-35ff3c3fe8d2" style="color: #a77dff">Demo Video</a>
 </p>
 
 <p align="center">
