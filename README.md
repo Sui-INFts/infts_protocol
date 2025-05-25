@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Sui-INFts/infts_protocol/blob/main/sources/infts_protocol.move" style="color: #a77dff">Sui Network</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/app/create/page.tsx" style="color: #a77dff">Walrus</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/hooks/useAtoma.ts" style="color: #a77dff">Atoma</a>
+  <a href="https://github.com/Sui-INFts/infts_protocol/blob/main/sources/infts_protocol.move" style="color: #a77dff">Sui</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/app/create/page.tsx" style="color: #a77dff">Walrus</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/hooks/useAtoma.ts" style="color: #a77dff">Atoma</a>
 </p>
 
 <p align="center">
