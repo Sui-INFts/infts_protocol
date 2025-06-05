@@ -10,10 +10,6 @@
   <a href="https://github.com/Sui-INFts/infts_protocol/blob/main/sources/infts_protocol.move" style="color: #a77dff">Sui</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/app/create/page.tsx" style="color: #a77dff">Walrus</a> | <a href="https://github.com/Sui-INFts/infts_client/blob/main/hooks/useAtoma.ts" style="color: #a77dff">Atoma</a>
 </p>
 
-<p align="center">
-  <a href="https://publisher.walrus-testnet.walrus.space/" style="color: #a77dff">const WALRUS_PUBLISHER_URL</a> | <a href="https://aggregator.walrus-testnet.walrus.space/" style="color: #a77dff">const WALRUS_AGGREGATOR_URL</a>
-</p>
-
 ![image](https://github.com/user-attachments/assets/2fc951f2-a160-4388-9275-a044a28e0290)
 
 ## Overview
